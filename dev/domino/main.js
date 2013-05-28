@@ -33,16 +33,39 @@ window.onload = function() {
          mat4.rotateX(matrix, -phi);
          parent.rotation = matrix;
          });*/
+        var phase = "one";
+        var dst = new DominoStack();
+        dst.x = 0.8 * Math.sin(Math.PI / 3);
+        dst.y = 0.8 * Math.cos(Math.PI / 3);
+        dst.z = -12;
+        var domino1 = new Domino();
+        domino1.roll = -Math.PI / 3 + Math.PI;
+        dst.pushDomino(domino1);
+        var domino2 = new Domino();
+        dst.pushDomino(domino2);
+        var domino3 = new Domino();
+        dst.pushDomino(domino3);
+        var domino4 = new Domino();
+        dst.pushDomino(domino4);
+        scene.addChild(dst);
         parent.on('enterframe', function() {
+            if (phase === "two") {
+                dst.z += (dst.z < -10) ? 0.02 : 0;
+            }
             if (d.pitch !== 0 && d.pitch !== Math.PI / 2) {
                 theta -= Math.PI / 155;
                 scene.getCamera().x = 30 * Math.sin(theta);
                 scene.getCamera().y = 30 * Math.cos(theta);
             } else if (d.pitch === Math.PI / 2) {
-                scene.getCamera().x /= 1.1;
-                scene.getCamera().y /= 1.1;
-                scene.getCamera().z *= (scene.getCamera().z < 40) ? 1.1 : 1;
-
+                scene.getCamera().x /= (scene.getCamera().x < 0.01) ? 1.1 : 1;
+                scene.getCamera().y /= (scene.getCamera().y < 0.01) ? 1.1 : 1;
+                scene.getCamera().z *= (scene.getCamera().z < 30) ? 1.1 : 1;
+                if (phase === "two" && scene.getCamera().z > 30) {
+                    if (dst.z > -10) {
+                        domino1.pitch = 0.01;
+                        phase = "three";
+                    }
+                }
             }
         });
         var floor = new PlaneXY();
@@ -71,6 +94,7 @@ window.onload = function() {
             if (d.pitch === 0) {
                 d.pitch = 0.01;
                 d.mesh.setBaseColor([1, 0, 1, 1]);
+                phase = "two";
             }
         });
         dstack.pushDomino(d);
