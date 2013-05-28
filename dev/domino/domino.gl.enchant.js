@@ -25,7 +25,6 @@ if (enchant.gl !== undefined) {( function() {
                     if ( typeof distance === 'undefined') {
                         distance = this._distance;
                     }
-                    console.log(distance);
                     this.addChild(domino);
                     if (this.lastDomino !== null) {
                         this.lastDomino.nextDomino = domino;
@@ -50,20 +49,22 @@ if (enchant.gl !== undefined) {( function() {
                     this._isFalling = false;
                     this.on("enterframe", function() {
                         this._alpha = (this.pitch >= Math.PI / 2) ? 0 : 0.05 * Math.sin(this.pitch);
+                        this._omega += this._alpha;
+                        this.pitch += this._omega;
+                        if (this.nextDomino !== null) {
+                            if (this.pitch > Math.asin(this._distance / this.mesh._height)) {
+                                if (!this.nextDomino._isFalling) {
+                                    this.nextDomino._omega = this._omega / 2 * 1.8;
+                                    this.nextDomino._isFalling = true;
+                                }
+                                if (this.nextDomino.pitch < Math.PI / 2) {
+                                    this.pitch = this.calculatePitch(this.nextDomino.pitch);
+                                }
+                            }
+                        }
                         if (this.pitch > Math.PI / 2) {
                             this._omega = 0;
                             this.pitch = Math.PI / 2;
-                        }
-                        this._omega += this._alpha;
-                        this.pitch += this._omega;
-                        if (this.nextDomino) {
-                            if (this.pitch > Math.asin(this._distance / this.mesh._height)) {
-                                if (!this.nextDomino._isFalling) {
-                                    this.nextDomino._omega = this._omega / 2 * 1.5;
-                                    this.nextDomino._isFalling = true;
-                                }
-                                this.pitch = this.calculatePitch(this.nextDomino.pitch)
-                            }
                         }
                     });
                 },
