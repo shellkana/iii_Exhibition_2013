@@ -47,6 +47,7 @@ if (enchant.gl !== undefined) {( function() {
                     this._distance = 0;
                     this.nextDomino = null;
                     this._isFalling = false;
+                    this.onFallStart = null;
                     this.on("enterframe", function() {
                         this._alpha = (this.pitch >= Math.PI / 2) ? 0 : 0.05 * Math.sin(this.pitch);
                         this._omega += this._alpha;
@@ -56,6 +57,9 @@ if (enchant.gl !== undefined) {( function() {
                                 if (!this.nextDomino._isFalling) {
                                     this.nextDomino._omega = this._omega / 2 * 1.8;
                                     this.nextDomino._isFalling = true;
+                                    if (this.nextDomino.onFallStart) {
+                                        this.nextDomino.onFallStart();
+                                    }
                                 }
                                 if (this.nextDomino.pitch < Math.PI / 2) {
                                     this.pitch = this.calculatePitch(this.nextDomino.pitch);
