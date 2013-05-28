@@ -4,10 +4,11 @@ window.onload = function() {
     game.preload('floor.png');
     game.onload = function() {
         var scene = new Scene3D();
-        scene.getCamera().x = 20;
-        scene.getCamera().y = 15;
+        scene.getCamera().x = 26;
+        scene.getCamera().y = 18;
         scene.getCamera().z = 2;
-        scene.getCamera().centerY = -3;
+        scene.getCamera().centerX = 5;
+        scene.getCamera().centerY = -5;
         scene.getCamera().centerZ = -10;
         scene.getCamera().upVectorX = 0;
         scene.getCamera().upVectorY = 0;
@@ -53,7 +54,7 @@ window.onload = function() {
         d.pitch = 0.01;
         dstack.pushDomino(d);
         var d3 = new Domino();
-        d3.roll = Math.PI / 6;
+        d3.roll = Math.PI / 12;
         dstack.pushDomino(d3);
         for (var i = 0; i < 20; i++) {
             var d2 = new Domino();
