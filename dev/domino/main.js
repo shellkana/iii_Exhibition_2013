@@ -48,7 +48,7 @@ window.onload = function() {
         var floor = new PlaneXY();
         floor.z = -10;
         floor.scale(50, 50, 1);
-        floor.mesh.texture = new Texture("floor.png");
+        floor.mesh.texture = new Texture(game.assets["floor.png"]);
         parent.addChild(floor);
         var sky = new Sphere(250);
         sky.mesh.reverse();
