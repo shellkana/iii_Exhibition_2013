@@ -7,7 +7,7 @@ window.onload = function() {
         scene.getCamera().x = 20;
         scene.getCamera().y = 10;
         scene.getCamera().z = 2;
-        scene.getCamera().centerY=-3
+        scene.getCamera().centerY = -3
         scene.getCamera().upVectorX = 0;
         scene.getCamera().upVectorY = 0;
         scene.getCamera().upVectorZ = 1;
@@ -34,7 +34,7 @@ window.onload = function() {
         dstack.pushDomino(d3);
         for (var i = 0; i < 10; i++) {
             var d2 = new Domino();
-            d2.roll = Math.PI/24;
+            d2.roll = Math.PI / 24;
             dstack.pushDomino(d2);
         }
     };
