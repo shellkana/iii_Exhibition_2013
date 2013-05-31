@@ -66,6 +66,12 @@ window.onload = function() {
                         phase = "three";
                     }
                 }
+                if (scene.getCamera().z > 30) {
+                    scene.getCamera().x -= 0.2;
+                    scene.getCamera().centerX -= 0.05;
+                    scene.getCamera().y += 0.2;
+                    scene.getCamera().centerY += 0.1;
+                }
             }
         });
         var floor = new PlaneXY();
@@ -98,12 +104,12 @@ window.onload = function() {
             }
         });
         dstack.pushDomino(d);
-        for (var i = 0; i < 24; i++) {
+        for (var i = 0, l = 500; i < l; i++) {
             var d2 = new Domino();
-            d2.roll = -Math.PI / 15;
+            d2.roll = (Math.floor(i / 24) % 2 === 0) ? -Math.PI / 15 : Math.PI / 15;
             d2.id = i;
             d2.onFallStart = function() {
-                this.mesh.setBaseColor(parseTempToColor(this.id + 1, 24, 0));
+                this.mesh.setBaseColor(parseTempToColor(this.id + 1, l, 0));
             };
             dstack.pushDomino(d2);
         }
