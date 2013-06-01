@@ -81,6 +81,9 @@ if (enchant.gl !== undefined) {( function() {
                     if (x != 0) {
                         answer = Math.acos((B + Math.sqrt(B * B - A * C)) / A);
                     }
+                    if (isNaN(answer)) {
+                        answer = 0;
+                    }
                     return Math.PI / 2 - answer;
                 },
                 pitch : {
