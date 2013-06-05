@@ -20,13 +20,13 @@ if (enchant.gl !== undefined) {( function() {
                 this.getCamera().centerZ = -1;
                 this.base = new enchant.gl.primitive.PlaneXY();
                 this.addChild(this.base);
-                this.screen = new enchant.gl.ar.VideoTexturePlaneXY(markerSize,this.base);
+                this.screen = new enchant.gl.ar.VideoTexturePlaneXY(markerSize, this.base);
                 this.addChild(this.screen);
                 optimizeSprite3dForTextureScene(this.screen);
             }
         });
         enchant.gl.ar.VideoTexturePlaneXY = enchant.Class.create(enchant.gl.primitive.PlaneXY, {
-            initialize : function(markerSize,base) {
+            initialize : function(markerSize, base) {
                 enchant.gl.primitive.PlaneXY.call(this, 8.5);
                 var core = enchant.Core.instance;
                 this.z = -49;
@@ -95,13 +95,11 @@ if (enchant.gl !== undefined) {( function() {
                 textureSprite.image = surface;
                 sceneTexture.addChild(textureSprite);
                 this.mesh.texture.src = sceneTexture._element;
-
             },
             snapshot : function() {
                 var core = enchant.Core.instance;
                 this.context.drawImage(this.video, 0, 0, core.width, core.height);
                 this.imageData = this.context.getImageData(0, 0, core.width, core.height);
-
             }
         });
     }());
