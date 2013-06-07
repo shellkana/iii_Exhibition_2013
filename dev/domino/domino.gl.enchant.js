@@ -34,6 +34,19 @@ if (enchant.gl !== undefined) {( function() {
                     domino.y = this.lastDomino.y - Math.cos(-this.lastDomino.roll) * distance;
                 }
                 this.lastDomino = domino;
+            },
+            popDomino : function() {
+                this.removeChild(this.lastDomino);
+                this.lastDomino = this.childNodes[this.childNodes.length - 1];
+                this.lastDomino.nextDomino = null;
+            },
+            initDominos : function() {
+                for (var i = 0, l = this.childNodes.length; i < l; i++) {
+                    this.childNodes[i].pitch = 0;
+                    this.childNodes[i]._omega = 0;
+                    this.childNodes[i]._alpha = 0;
+                    this.childNodes[i]._isFalling = false;
+                }
             }
         });
         enchant.gl.domino.Domino = enchant.Class.create(enchant.gl.Sprite3D, {
