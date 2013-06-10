@@ -36,6 +36,8 @@ if (enchant.gl !== undefined) {( function() {
                 this.lastDomino = domino;
             },
             popDomino : function() {
+                if (this.childNodes.length === 1)
+                    return;
                 this.removeChild(this.lastDomino);
                 this.lastDomino = this.childNodes[this.childNodes.length - 1];
                 this.lastDomino.nextDomino = null;
