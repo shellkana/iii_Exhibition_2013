@@ -31,10 +31,11 @@ window.onload = function() {
         var rMinusButton = new enchant.widget.Button('-');
         rMinusButton.x = 800 * 1 / 4 - rPlusButton.width / 2 - 120;
         rMinusButton.y = 600 / 2;
+
         var rToggle = new enchant.widget.Button('');
         rToggle.height *= 2;
         rToggle.width /= 2;
-        rToggle.x = 800 * 1 / 2 - rPlusButton.width / 2;
+        rToggle.x = 1 / 8 * (rPlusButton.x - rToggle.width) + 7 / 8 * (rMinusButton.x + rMinusButton.width) + rToggle.width + 10;
         rToggle.y = 600 / 2 - rToggle.height / 4;
         rToggle.on('touchstart', function(e) {
             offsetX = e.x;
