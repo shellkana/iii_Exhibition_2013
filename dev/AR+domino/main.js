@@ -2,7 +2,7 @@ enchant();
 window.onload = function() {
     var game = new Core(960, 640);
     game.preload({
-        key : "Mac2.png"
+        key : "Mac.png"
     });
     game.onload = function() {
         //ヒントシーン
