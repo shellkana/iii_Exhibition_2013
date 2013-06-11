@@ -60,7 +60,7 @@ function twitter(data) {
         var scene = new ARScene3D();
         var dstacks = new DominoStack();
         dstacks.scale(0.25, 0.25, 0.25);
-        dstacks.x = -2;
+        dstacks.x = -3;
         dstacks.y = 3.5;
         scene.base.addChild(dstacks);
         var parent = new Sprite3D();
