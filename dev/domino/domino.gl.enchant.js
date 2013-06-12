@@ -70,7 +70,7 @@ if (enchant.gl !== undefined) {( function() {
                     if (this.nextDomino !== null) {
                         if (this.pitch > Math.asin(this._distance / this.mesh._height)) {
                             if (!this.nextDomino._isFalling) {
-                                this.nextDomino._omega = this._omega / 2 * 1.8;
+                                this.nextDomino._omega = this._omega * 0.98;
                                 this.nextDomino._isFalling = true;
                                 if (this.nextDomino.onFallStart) {
                                     this.nextDomino.onFallStart();

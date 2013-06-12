@@ -1,7 +1,10 @@
 enchant();
 window.onload = function() {
     var game = new Core(960, 640);
-    game.preload('floor.png');
+    game.preload({
+        floor : 'floor.png',
+        sound : 'oto6.m4a'
+    });
     game.onload = function() {
         var scene = new Scene3D();
         var theta = 0;
@@ -77,7 +80,7 @@ window.onload = function() {
         var floor = new PlaneXY();
         floor.z = -10;
         floor.scale(50, 50, 1);
-        floor.mesh.texture = new Texture(game.assets["floor.png"]);
+        floor.mesh.texture = new Texture(game.assets["floor"]);
         parent.addChild(floor);
         var sky = new Sphere(250);
         sky.mesh.reverse();
@@ -104,12 +107,17 @@ window.onload = function() {
             }
         });
         dstack.pushDomino(d);
+        var otos = [];
+        for (var i = 0; i < 10; i++) {
+            otos[i] = game.assets['sound'].clone();
+        }
         for (var i = 0, l = 500; i < l; i++) {
             var d2 = new Domino();
             d2.roll = (Math.floor(i / 24) % 2 === 0) ? -Math.PI / 15 : Math.PI / 15;
             d2.id = i;
             d2.onFallStart = function() {
                 this.mesh.setBaseColor(parseTempToColor(this.id + 1, l, 0));
+                otos[this.id % 10].play();
             };
             dstack.pushDomino(d2);
         }

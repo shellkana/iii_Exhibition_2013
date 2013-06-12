@@ -2,7 +2,8 @@ enchant();
 window.onload = function() {
     var game = new Core(960, 640);
     game.preload({
-        key : "Mac.png"
+        key : "Mac.png",
+        sound : "oto6.m4a"
     });
     game.onload = function() {
         //変数
@@ -74,6 +75,10 @@ window.onload = function() {
             game.pushScene(rotateScene);
         });
         //ここから3Dシーン
+        var otos = [];
+        for (var i = 0; i < 10; i++) {
+            otos[i] = game.assets['sound'].clone();
+        }
         var scene = new ARScene3D();
         var dstack = new DominoStack();
         dstack.scale(0.7, 0.7, 0.7);
@@ -82,6 +87,7 @@ window.onload = function() {
         var d = new Domino();
         d.onFallStart = function() {
             d.mesh.setBaseColor([1, 0, 1, 1]);
+            otos[9].play();
         }
         d.roll = Math.PI / 4;
         d.on('enterframe', function() {
@@ -89,6 +95,7 @@ window.onload = function() {
                 d.pitch = 0.01;
                 d._omega = 0.5;
                 d.isFalling = true;
+                d.mesh.setBaseColor([1, 0, 1, 1]);
             }
         });
         d.on('touchend', function() {
@@ -104,6 +111,7 @@ window.onload = function() {
             d2.id = i;
             d2.onFallStart = function() {
                 this.mesh.setBaseColor(parseTempToColor(this.id + 1, i, 0));
+                otos[this.id % 10].play();
             };
             d2.on('touchend', function() {
                 if (this.pitch === 0) {
@@ -119,6 +127,7 @@ window.onload = function() {
             d2.roll = Math.PI / 12;
             d2.onFallStart = function() {
                 this.mesh.setBaseColor(parseTempToColor(this.id + 1, i, 0));
+                otos[this.id % 10].play();
             };
             d2.on('touchend', function() {
                 if (this.pitch === 0) {
@@ -134,6 +143,7 @@ window.onload = function() {
             d2.roll = -Math.PI / 12;
             d2.onFallStart = function() {
                 this.mesh.setBaseColor(parseTempToColor(this.id + 1, i, 0));
+                otos[this.id % 10].play();
             };
             d2.on('touchend', function() {
                 if (this.pitch === 0) {

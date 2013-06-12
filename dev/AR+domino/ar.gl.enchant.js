@@ -86,9 +86,7 @@ if (enchant.gl !== undefined) {( function() {
                                 // @formatter:on
                                 this.base.rotation = mat4.multiply(mat4.multiply(b, mat, mat4.create()), b);
                             } else if (this.flag) {
-                                console.log(markers[i].id);
                                 this.flag = false;
-                                console.log("fall");
                             }
                             //drawCorners(markers);
                             //drawId(markers);
