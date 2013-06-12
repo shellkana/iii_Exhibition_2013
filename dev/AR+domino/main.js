@@ -77,12 +77,20 @@ window.onload = function() {
         var scene = new ARScene3D();
         var dstack = new DominoStack();
         dstack.scale(0.7, 0.7, 0.7);
+        dstack.x = -3;
         scene.base.addChild(dstack);
         var d = new Domino();
         d.onFallStart = function() {
             d.mesh.setBaseColor([1, 0, 1, 1]);
         }
         d.roll = Math.PI / 4;
+        d.on('enterframe', function() {
+            if (!d.isFalling && !scene.screen.flag) {
+                d.pitch = 0.01;
+                d._omega = 0.5;
+                d.isFalling = true;
+            }
+        });
         d.on('touchend', function() {
             if (d.pitch === 0) {
                 d.pitch = 0.01;
@@ -137,6 +145,8 @@ window.onload = function() {
         });
         game.rootScene.on(Event.DOWN_BUTTON_DOWN, function() {
             dstack.initDominos();
+            scene.screen.flag = true;
+            d.isFalling = false;
             dstack.popDomino();
             i--;
         });
