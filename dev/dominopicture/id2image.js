@@ -19,6 +19,9 @@ var Dammy = Class.create(Sprite3D, {
 });
 window.onload = function() {
     game = new Core(960, 640);
+    game.preload({
+        sound : 'oto6.m4a'
+    })
     game.onload = function() {
         var inputScene = new Scene();
         var textarea = new InputTextBox();
@@ -28,7 +31,7 @@ window.onload = function() {
         inputScene.addChild(button);
         game.pushScene(inputScene);
         button.on('touchend', function() {
-            loadJS('https://api.twitter.com/1/users/show.json?screen_name=' + textarea.value + '&include_entities=true&callback=draw');
+            loadJS('http://localhost:8888/domino/twitteroauth-master/twitteroauth/test.php?screen_name=' + textarea.value + '&callback=draw');
             game.popScene();
         });
     };
@@ -41,12 +44,12 @@ function loadJS(src) {
 };
 
 function draw(data) {
-    loadJS('http://localhost:8888/domino/jsonp.php?callback=twitter&image_url=' + data.profile_image_url);
-    url = data.profile_image_url;
+    loadJS('http://localhost:8888/domino/jsonp.php?callback=twitter&image_url=' + data);
+    url = data;
 };
 
 function twitter(data) {
-    console.log(data);
+    var isAR = false;
     var canvas = document.getElementById("c");
     var ctx = canvas.getContext("2d");
     var image = new Image();
@@ -56,8 +59,16 @@ function twitter(data) {
         ctx.drawImage(image, 0, 0, 40, 40);
         var imgData2 = ctx.getImageData(0, 0, 40, 40);
         var colorData = imgData2.data;
-        console.log(colorData);
-        var scene = new ARScene3D();
+        var scene = isAR ? new ARScene3D() : new Scene3D();
+        if (!isAR) {
+            scene.getCamera().x = -30;
+            scene.getCamera().y = 0;
+            scene.getCamera().upVectorX = 0;
+            scene.getCamera().upVectorY = 0;
+            scene.getCamera().upVectorZ = 1;
+            scene.base = new PlaneXY();
+            scene.addChild(scene.base);
+        }
         var dstacks = new DominoStack();
         dstacks.scale(0.25, 0.25, 0.25);
         dstacks.x = -3;
@@ -69,17 +80,24 @@ function twitter(data) {
         parent.scale(0.25, 0.25, 0.25);
         scene.base.addChild(parent);
         var dominos = [];
+        var otos = [];
+        for (var i = 0; i < 10; i++) {
+            otos[i] = game.assets['sound'].clone();
+        }
         for (var i = 0; i < 40; i++) {
             dominos[i] = [];
             dominos[i][0] = new Domino();
+            dominos[i][0].id = i;
             dominos[i][0].mesh.setBaseColor([colorData[(40 * 39 + i) * 4] / 255, colorData[(40 * 39 + i) * 4 + 1] / 255, colorData[(40 * 39 + i) * 4 + 2] / 255, 1]);
-            console.log([colorData[i * 4] / 255, colorData[i * 4 + 1] / 255, colorData[i * 4 + 2] / 255, 1]);
             dominos[i][0].group = dominos[i];
             dominos[i][0].onPitchChange = function(rad) {
                 for (var ii = 1; ii < 40; ii++) {
                     this.group[ii].pitch = rad;
                 }
             };
+            dominos[i][0].onFallStart = function() {
+                otos[this.id % 10].play();
+            }
             dstacks.pushDomino(dominos[i][0]);
             for (var j = 1; j < 40; j++) {
                 dominos[i][j] = new Dammy();
@@ -91,6 +109,7 @@ function twitter(data) {
         }
         game.rootScene.on('touchend', function() {
             dominos[0][0].pitch = 0.01;
+            dominos[0][0]._omega = 0.35;
         });
     }
 };
