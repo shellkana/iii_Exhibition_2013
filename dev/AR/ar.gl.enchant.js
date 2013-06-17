@@ -38,7 +38,7 @@ if (enchant.gl !== undefined) {( function() {
                 this.base = base;
                 this.video = document.getElementById("video");
                 this.detector = null;
-                this.onDetect =[];
+                this.onDetect = [];
                 navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
                 if (navigator.getUserMedia) {
                     navigator.getUserMedia({
@@ -66,51 +66,13 @@ if (enchant.gl !== undefined) {( function() {
                         if (this._hasBaseId) {
                             for (var i = 0; i < markers.length; i++) {
                                 if (markers[i].id === parseInt(this._baseId)) {
-                                    var corners = markers[i].corners;
-                                    for (var i = 0; i < corners.length; ++i) {
-                                        var corner = corners[i];
-                                        corner.x = corner.x - (core.width / 2);
-                                        corner.y = (core.height / 2) - corner.y;
-                                    }
-                                    var pose = this.posit.pose(corners);
-                                    this.base.x = pose.bestTranslation[0] / 17;
-                                    this.base.y = pose.bestTranslation[1] / 17;
-                                    this.base.z = -pose.bestTranslation[2] / 9;
-                                    var b = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, -1, 0, 0, 0, 0, 1];
-                                    // @formatter:off
-                                    var mat = [
-                                        pose.bestRotation[0][0], pose.bestRotation[1][0], pose.bestRotation[2][0], 0,
-                                        pose.bestRotation[0][1], pose.bestRotation[1][1], pose.bestRotation[2][1], 0,
-                                        pose.bestRotation[0][2], pose.bestRotation[1][2], pose.bestRotation[2][2], 0,
-                                        0, 0, 0, 1
-                                    ];
-                                    // @formatter:on
-                                    this.base.rotation = mat4.multiply(mat4.multiply(b, mat, mat4.create()), b);
+                                    this.applyMarker2Sprite3D(markers[i], this.base);
                                 } else if (this.onDetect[markers[i].ids]) {
                                     this.onDetect[makers[i].ids](makers[i]);
                                 }
                             }
-                        } else {
-                            var corners = markers[0].corners;
-                            for (var i = 0; i < corners.length; ++i) {
-                                var corner = corners[i];
-                                corner.x = corner.x - (core.width / 2);
-                                corner.y = (core.height / 2) - corner.y;
-                            }
-                            var pose = this.posit.pose(corners);
-                            this.base.x = pose.bestTranslation[0] / 17;
-                            this.base.y = pose.bestTranslation[1] / 17;
-                            this.base.z = -pose.bestTranslation[2] / 9;
-                            var b = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, -1, 0, 0, 0, 0, 1];
-                            // @formatter:off
-                            var mat = [
-                                pose.bestRotation[0][0], pose.bestRotation[1][0], pose.bestRotation[2][0], 0,
-                                pose.bestRotation[0][1], pose.bestRotation[1][1], pose.bestRotation[2][1], 0,
-                                pose.bestRotation[0][2], pose.bestRotation[1][2], pose.bestRotation[2][2], 0,
-                                0, 0, 0, 1
-                            ];
-                            // @formatter:on
-                            this.base.rotation = mat4.multiply(mat4.multiply(b, mat, mat4.create()), b);
+                        } else if (markers.length > 0) {
+                            this.applyMarker2Sprite3D(markers[0], this.base);
                         }
                         //drawCorners(markers);
                         //drawId(markers);
@@ -123,6 +85,29 @@ if (enchant.gl !== undefined) {( function() {
                 textureSprite.image = surface;
                 sceneTexture.addChild(textureSprite);
                 this.mesh.texture.src = sceneTexture._element;
+            },
+            applyMarker2Sprite3D : function(marker, obj) {
+                var corners = marker.corners;
+                for (var i = 0; i < corners.length; ++i) {
+                    var corner = corners[i];
+                    corner.x = corner.x - (core.width / 2);
+                    corner.y = (core.height / 2) - corner.y;
+                }
+                var pose = this.posit.pose(corners);
+                obj.x = pose.bestTranslation[0] / 17;
+                obj.y = pose.bestTranslation[1] / 17;
+                obj.z = -pose.bestTranslation[2] / 9;
+                var b = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, -1, 0, 0, 0, 0, 1];
+                // @formatter:off
+                var mat = [
+                    pose.bestRotation[0][0], pose.bestRotation[1][0], pose.bestRotation[2][0], 0,
+                    pose.bestRotation[0][1], pose.bestRotation[1][1], pose.bestRotation[2][1], 0,
+                    pose.bestRotation[0][2], pose.bestRotation[1][2], pose.bestRotation[2][2], 0,
+                    0, 0, 0, 1
+                ];
+                // @formatter:on
+                obj.rotation = mat4.multiply(mat4.multiply(b, mat, mat4.create()), b);
+
             },
             baseId : {
                 set : function(value) {
