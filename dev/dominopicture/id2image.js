@@ -49,7 +49,7 @@ function draw(data) {
 };
 
 function twitter(data) {
-    var isAR = false;
+    var isAR = true;
     var canvas = document.getElementById("c");
     var ctx = canvas.getContext("2d");
     var image = new Image();
