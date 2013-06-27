@@ -1,0 +1,30 @@
+<html>
+
+    <head>
+        <title>noname</title>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <script>
+            window.onload = function() {
+                frames = document.getElementsByClassName('nineleap_gameframe');
+
+                document.addEventListener('keydown', function(e) {
+                    frames[0].contentDocument.dispatchEvent(e);
+                });
+
+                document.addEventListener('keyup', function(e) {
+                    frames[0].contentDocument.dispatchEvent(e);
+                });
+            };
+        </script>
+        <style type="text/css">
+            body {
+                margin: 0;
+            }
+        </style>
+    </head>
+
+    <body>
+        <iframe src="index.html" frameborder="0" scrolling="no" width="200" height="100" frameborder="0" class="nineleap_gameframe"></iframe>
+    </body>
+
+</html>
