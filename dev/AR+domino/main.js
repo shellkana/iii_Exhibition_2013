@@ -74,6 +74,9 @@ window.onload = function() {
         rotateButton.on('touchend', function() {
             game.pushScene(rotateScene);
         });
+        /*var pad = new Pad();
+        game.rootScene.addChild(pad);
+        pad.y = 200;*/
         //ここから3Dシーン
         var otos = [];
         for (var i = 0; i < 10; i++) {
@@ -81,12 +84,12 @@ window.onload = function() {
         }
         var scene = new ARScene3D();
         var dstack = new DominoStack();
-        dstack.scale(0.7, 0.7, 0.7);
+        //dstack.scale(0.9, 0.9, 0);
         dstack.x = -3;
         scene.base.addChild(dstack);
         var d = new Domino();
         d.onFallStart = function() {
-            d.mesh.setBaseColor([1, 0, 1, 1]);
+            //d.mesh.setBaseColor([1, 0, 1, 1]);
             otos[9].play();
         }
         d.roll = Math.PI / 4;
@@ -101,16 +104,18 @@ window.onload = function() {
         d.on('touchend', function() {
             if (d.pitch === 0) {
                 d.pitch = 0.01;
-                d.mesh.setBaseColor([1, 0, 1, 1]);
+                //d.mesh.setBaseColor([1, 0, 1, 1]);
             }
         });
+        d.mesh.setBaseColor([0, 0, 1, 1]);
         dstack.pushDomino(d);
         var i = 0, l = 0;
         game.rootScene.on(Event.UP_BUTTON_DOWN, function() {
             var d2 = new Domino();
             d2.id = i;
+            d2.mesh.setBaseColor([0, 0, 1, 1]);
             d2.onFallStart = function() {
-                this.mesh.setBaseColor(parseTempToColor(this.id + 1, i, 0));
+                //this.mesh.setBaseColor(parseTempToColor(this.id + 1, i, 0));
                 otos[this.id % 10].play();
             };
             d2.on('touchend', function() {
@@ -124,9 +129,10 @@ window.onload = function() {
         game.rootScene.on(Event.LEFT_BUTTON_DOWN, function() {
             var d2 = new Domino();
             d2.id = i;
+            d2.mesh.setBaseColor([0, 0, 1, 1]);
             d2.roll = Math.PI / 12;
             d2.onFallStart = function() {
-                this.mesh.setBaseColor(parseTempToColor(this.id + 1, i, 0));
+                //this.mesh.setBaseColor(parseTempToColor(this.id + 1, i, 0));
                 otos[this.id % 10].play();
             };
             d2.on('touchend', function() {
@@ -140,9 +146,10 @@ window.onload = function() {
         game.rootScene.on(Event.RIGHT_BUTTON_DOWN, function() {
             var d2 = new Domino();
             d2.id = i;
+            d2.mesh.setBaseColor([0, 0, 1, 1]);
             d2.roll = -Math.PI / 12;
             d2.onFallStart = function() {
-                this.mesh.setBaseColor(parseTempToColor(this.id + 1, i, 0));
+                //this.mesh.setBaseColor(parseTempToColor(this.id + 1, i, 0));
                 otos[this.id % 10].play();
             };
             d2.on('touchend', function() {
