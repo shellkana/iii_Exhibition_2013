@@ -1,10 +1,10 @@
-####東京大学制作展2013年extra
 #onDetect
-たった11行でARアプリが作れちゃう！？  
-しかもブラウザ上で！？  
-そんな簡単便利なライブラリがあれば、ARでWebブラウジングしちゃう、なんて未来が現実になる？
-
+##遊び方
+- 矢印キーを押して自由にARのドミノを配置します。
+- 本物のドミノを最初のドミノに合わせて配置して倒してみましょう。
 <img src = "dev/AR+domino/Mac.png">  
+
+###補足
 - start1 : ターミナルで`open -a Google\ Chrome --args -allow-file-access-from-files`+`Enter`
 - start2 : index.htmlをドラッグ&ドロップ
 - restart : リロード`Command+R`
