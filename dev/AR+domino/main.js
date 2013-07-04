@@ -8,7 +8,7 @@ window.onload = function() {
     game.onload = function() {
         //変数
         var offsetX = 0;
-        //変数ラベル
+        /*//変数ラベル
         var rot = new Label();
         rot.font = '100px serif';
         rot.width = getElementMetrics("145度", '100px serif').width;
